@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, flash
+from flask import Flask, request, redirect, flash
 from flask.helpers import send_file
 
 DEBUG=True
@@ -18,7 +18,7 @@ def allowed_file(filename):
 @facerec.route('/')
 def hello_world():
     return 'Hello World, Facerec application talking'
-    
+
 @facerec.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
