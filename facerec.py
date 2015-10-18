@@ -3,9 +3,9 @@ from flask import Flask, request, redirect, flash
 from flask.helpers import send_file
 
 DEBUG=True
-SECRET_KEY = 'development key'
-UPLOAD_FOLDER = '/var/www/facerec/data'
-PROCESSED_FOLDER = '/var/www/facerec/data'
+SECRET_KEY = 'developemnt key'
+UPLOAD_FOLDER = '/var/www/facerec/data/'
+PROCESSED_FOLDER = '/var/www/facerec/data/'
 
 ALLOWED_EXTENSIONS = set(['jpg'])
 
@@ -25,7 +25,7 @@ def upload_file():
     if request.method == 'POST':
         image_file = request.files['file']
         if image_file and allowed_file(image_file.filename):
-            file.save(os.path.join(facerec.config['UPLOAD_FOLDER'], image_file.filename))
+            image_file.save(os.path.join(facerec.config['UPLOAD_FOLDER'], image_file.filename))
             flash('Uploaded file')
             
     return '''
