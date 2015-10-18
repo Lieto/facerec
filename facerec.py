@@ -4,8 +4,8 @@ from flask.helpers import send_file
 
 DEBUG=True
 SECRET_KEY = 'development key'
-UPLOAD_FOLDER = '/var/www/facerec/data/'
-PROCESSED_FOLDER = '/var/www/facerec/data/'
+UPLOAD_FOLDER = '/var/www/facerec/data'
+PROCESSED_FOLDER = '/var/www/facerec/data'
 
 ALLOWED_EXTENSIONS = set(['jpg'])
 
@@ -38,7 +38,7 @@ def upload_file():
     </form>
     '''
 
-@facerec.route('get_image')
+@facerec.route('/get_image')
 def get_image():
     image_name = request.args.get('file')
     if image_name and allowed_file(image_name):
