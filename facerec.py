@@ -2,9 +2,9 @@ import os
 from flask import Flask, request, flash
 from flask.helpers import send_file
 
-#DEBUG=True
-#UPLOAD_FOLDER = '/var/www/facerec/data'
-#PROCESSED_FOLDER = '/var/www/facerec/data'
+DEBUG=True
+UPLOAD_FOLDER = '/var/www/facerec/data'
+PROCESSED_FOLDER = '/var/www/facerec/data'
 
 ALLOWED_EXTENSIONS = set(['jpg'])
 
