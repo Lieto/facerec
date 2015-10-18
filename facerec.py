@@ -45,6 +45,7 @@ def get_image():
         return send_file(os.path.join(facerec.config['UPLOAD_FOLDER'], image_name), mimetype = 'image/jpg')
 
 
+
 if __name__ == '__main__':
     facerec.run()
 
