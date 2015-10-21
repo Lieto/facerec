@@ -7,7 +7,7 @@ from flask.templating import render_template
 DEBUG=True
 SECRET_KEY = 'development key'
 UPLOAD_FOLDER = '/var/www/facerec/data'
-#UPLOAD_FOLDER = './data/'
+#UPLOAD_FOLDER = './data'
 PROCESSED_FOLDER = '/var/www/facerec/data'
 
 ALLOWED_EXTENSIONS = set(['jpg'])
