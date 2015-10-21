@@ -43,7 +43,7 @@ class Test(unittest.TestCase):
         
         self.assertTrue(os.path.exists("./data/1_face.jpg"))
         
-        os.remove('./data/1_face.jpg')
+        #os.remove('./data/1_face.jpg')
 
         
 

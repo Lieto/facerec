@@ -37,7 +37,7 @@ class Image:
             io.imsave(filename, self.rgb)
     
     def detect_face(self):
-        detector = NaiveDlib('./data/mean.csv.txt', './data/shape_predictor_68_face_landmarks.dat')
+        detector = NaiveDlib('/var/www/facerec/data/mean.csv.txt', '/var/www/facerec/data/shape_predictor_68_face_landmarks.dat')
         largestBox = detector.getLargestFaceBoundingBox(self.rgb)
         
         points = detector.align(self.rgb, largestBox)
@@ -45,7 +45,7 @@ class Image:
         
         rectImage = annotate(self.rgb, largestBox, points = points, meanPoints = meanAlignPoints)
         
-        filename = "./data/" + self.name + "_face.jpg"
+        filename = "/var/www/facerec/data/" + self.name + "_face.jpg"
         io.imsave(filename, rectImage)
     
         
