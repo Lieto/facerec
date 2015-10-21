@@ -1,0 +1,10 @@
+<!doctype html>
+<title>Detected face</title>
+{% if entries %}
+  <h1>Original image</h1>
+  <img src="{{ url_for('send_file', filename=entries[0]) }}">
+  <h1>Detected face</h1>
+  <img src="{{ url_for('send_file', filename=entries[1]) }}">
+{% else %}
+  <h1>No image found</h1>
+{% endif %}
