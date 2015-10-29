@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Recognition Application</title>
+    <style>
+        header {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 5px;
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            clear: both;
+            text-align: center;
+            padding: 5px;
+        }
+        body {
+            background-color: floralwhite;
+        }
+        fieldset {
+            background-color: aqua;
+            border: 10px solid cornflowerblue;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<header><h1>Face Recognition Application</h1></header>
+<section>
+<fieldset>
+    <legend>Test Images</legend>
+    <img src="{{ url_for('send_file', filename="1.jpg") }}" width="480" " >
+    <img src="{{ url_for('send_file', filename="1024px-Messier51.jpg") }}" width="480" >
+    <img src="{{ url_for('send_file', filename="6.jpg") }}" width="480">
+</fieldset>
+
+<fieldset>
+    <legend>Read From File</legend>
+    <form action="/detect_face_from_file" method="post" enctype="multipart/form-data">
+        <p><input type="file" name="file"></p>
+        <input type="submit" value="Detect">
+    </form>
+</fieldset>
+
+<fieldset>
+    <legend>Read from image link</legend>
+    <form action="/detect_face_from_url" method="post">
+        <p><input type="text" name="url"></p>
+        <input type="submit" value="Detect">
+    </form>
+</fieldset>
+
+<fieldset>
+    <legend>Results</legend>
+
+    {% if entries %}
+      <h2>Original image</h2>
+      <img src="{{ url_for('send_file', filename=entries[0]) }}" width="480">
+      <h2>Detected face</h2>
+      <img src="{{ url_for('send_file', filename=entries[1]) }}" width="480">
+      <h2>Just face</h2>
+      <img src="{{ url_for('send_file', filename=entries[2]) }}" width="480">
+    {% else %}
+      <h2>Upload image from file or from url</h2>
+    {% endif %}
+</fieldset>
+</section>
+<footer>
+    Copyright: Vesa Kuoppala </br>
+    <address>
+        vkuoppala@hotmail.com
+    </address>
+
+</footer>
+</body>
+</html>
