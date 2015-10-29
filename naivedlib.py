@@ -153,8 +153,8 @@ class NaiveDlib:
             return
             
         if outputPrefix:
-            image_name  =  os.path.join(self.facerec.config['UPLOAD_FOLDER'], getName())
-            io.imsave(image_name, cwImg)
+            cropped_image_name  =  os.path.join(self.facerec.config['UPLOAD_FOLDER'], getName("cropped"))
+            io.imsave(cropped_image_name, cwImg)
         return cwImg
 
     

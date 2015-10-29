@@ -29,17 +29,39 @@
         }
 
     </style>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    {{ fujs.js }}
+    <script>
+        $(function() {
+            $("button").bind("click", function() {
+                var $button = $( this );
+                var url = flask_util.url_for('something', {something: $button.attr('id') });
+                alert(url);
+            });
+
+            $("img").bind("click", function() {
+                var $image = $(this);
+                flask_util.url_for('detect_face_from_local', {filename: $image.attr('id')});
+            });
+
+        });
+    </script>
 </head>
 <body>
 <header><h1>Face Recognition Application</h1></header>
 <section>
 <fieldset>
     <legend>Test Images</legend>
-    <img src="{{ url_for('send_file', filename="1.jpg") }}" width="480" " >
-    <img src="{{ url_for('send_file', filename="1024px-Messier51.jpg") }}" width="480" >
-    <img src="{{ url_for('send_file', filename="6.jpg") }}" width="480">
+    <img id="1.jpg" src="{{ url_for('send_file', filename='1.jpg') }}" width="480" />
+    <img id="1024px-Messier51.jpg" src="{{ url_for('send_file', filename='1024px-Messier51.jpg') }}" width="480" />
+    <img id="6.jpg" src="{{ url_for('send_file', filename='6.jpg') }}" width="480" />
 </fieldset>
-
+<fieldset>
+    <legend>Test click</legend>
+    <button id="button_a">First!</button>
+    <button id="button_b">Second!</button>
+    <button id="button_c">Third!</button>
+</fieldset>
 <fieldset>
     <legend>Read From File</legend>
     <form action="/detect_face_from_file" method="post" enctype="multipart/form-data">

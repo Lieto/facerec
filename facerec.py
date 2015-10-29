@@ -2,6 +2,7 @@ import os
 import requests
 from flask import Flask, request, redirect, flash, url_for
 from flask.helpers import send_file, send_from_directory
+from flask_util_js import FlaskUtilJs
 from image import Image
 from naivedlib import NaiveDlib
 from flask.templating import render_template
@@ -19,6 +20,7 @@ from flask.templating import render_template
 
 
 facerec = Flask(__name__)
+fujs = FlaskUtilJs(facerec)
 #facerec.config.from_pyfile('./config.cfg', silent=True)
 #Configuration
 
@@ -36,6 +38,10 @@ detector = NaiveDlib(os.path.join(facerec.config['UPLOAD_FOLDER'], facerec.confi
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in facerec.config['ALLOWED_EXTENSIONS']
 
+@facerec.context_processor
+def inject_fujs():
+    return dict(fujs=fujs)
+
 
 @facerec.route('/', methods = ['GET', 'POST'])
 def hello_world():
@@ -43,6 +49,10 @@ def hello_world():
     
     return render_template('index.html', entries = entries)
     #return 'Hello World, Facerec application talking'
+
+@facerec.route('/foo/<something>/')
+def something(something):
+    return 'Alright then {}'.format(something)
 
 @facerec.route('/upload_from_url', methods = ['GET', 'POST'])
 def upload_from_url():
@@ -92,10 +102,11 @@ def detect_face_from_url():
         
                 orig_filename = filename.split('.')[0] + "-orig" + ".jpg"
                 face_imagename = filename.split('.')[0] + "-annotated" + ".jpg"
+                cropped_filename = filename.split('.')[0] + "-cropped" + ".jpg"
                 entries = []
                 entries.append(orig_filename)
                 entries.append(face_imagename)
-                entries.append(filename)
+                entries.append(cropped_filename)
                 return render_template('index.html', entries = entries)
                 
                 
@@ -145,7 +156,24 @@ def send_file(filename):
     return send_from_directory(facerec.config['UPLOAD_FOLDER'], filename)
 
 
+@facerec.route('/detect_face_from_local/<filename>')
+def detect_face_from_local(filename):
+    image = Image('jpg', filename.split(".")[0], os.path.join(facerec.config['UPLOAD_FOLDER'], filename), facerec.config)
+    image.getRGB(cache=True)
+        
+    largestBox = detector.getLargestFaceBoundingBox(image.rgb)
+    alignedFace = detector.alignImg("homography", 256, image.rgb, largestBox, outputPrefix=image.name, outputDebug=True, expandBox=False)
+    orig_filename = filename.split('.')[0] + "-orig" + ".jpg"
+    face_filename = filename.split('.')[0] + "-annotated" + ".jpg"
+    cropped_filename = filename.split('.')[0] + "-cropped" + ".jpg"
+    entries = []
+    entries.append(orig_filename)
+    entries.append(face_filename)
+    entries.append(cropped_filename)
+    return render_template('index.html', entries = entries)
+        
     
+        
 @facerec.route('/detect_face_from_file', methods=['GET', 'POST'])
 def detect_face_from_file():
     if request.method == 'POST':
@@ -162,10 +190,11 @@ def detect_face_from_file():
         
             orig_filename = image_file.filename.split('.')[0] + "-orig" + ".jpg"
             face_imagename = image_file.filename.split('.')[0] + "-annotated" + ".jpg"
+            cropped_filename = image_file.filename.split('.')[0] + "-cropped" + ".jpg"
             entries = []
             entries.append(orig_filename)
             entries.append(face_imagename)
-            entries.append(image_file.filename)
+            entries.append(cropped_filename)
             return render_template('index.html', entries = entries)
 
 
