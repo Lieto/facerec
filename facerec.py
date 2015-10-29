@@ -83,13 +83,30 @@ def detect_face_from_url():
                 
                 image = Image('jpg', filename.split(".")[0], os.path.join(facerec.config['UPLOAD_FOLDER'], filename), facerec.config)
                 image.getRGB(cache=True)
-                image.detect_face()
+                
+                
+                largestBox = detector.getLargestFaceBoundingBox(image.rgb)
+                alignedFace = detector.alignImg("homography", 256, image.rgb, largestBox, outputPrefix=image.name, outputDebug=True, expandBox=False)
+            
+                #image.detect_face()
         
-                face_imagename = filename.split('.')[0] + "_face" + ".jpg"
+                orig_filename = filename.split('.')[0] + "-orig" + ".jpg"
+                face_imagename = filename.split('.')[0] + "-annotated" + ".jpg"
                 entries = []
-                entries.append(filename)
+                entries.append(orig_filename)
                 entries.append(face_imagename)
+                entries.append(filename)
                 return render_template('index.html', entries = entries)
+                
+                
+                
+                #image.detect_face()
+        
+                #face_imagename = filename.split('.')[0] + "_face" + ".jpg"
+                #entries = []
+                #entries.append(filename)
+                #entries.append(face_imagename)
+                #return render_template('index.html', entries = entries)
 
                         
 @facerec.route('/upload', methods = ['GET', 'POST'])
